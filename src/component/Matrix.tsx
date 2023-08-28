@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Square } from "./Square";
+import { Restart } from "./Restart";
 
 function calculateWinner(squares: Array<string>) {
   const possibilities = [
@@ -26,11 +27,15 @@ export const Matrix: React.FC = (): JSX.Element => {
   const [squares, setSquares]: [Array<string>, Function] = useState(
     Array<string>(9).fill("")
   );
-
-  const winner = calculateWinner(squares);
   let status;
+  const winner = calculateWinner(squares);
+  const remSquare = squares.some((squareVal) => {
+    return squareVal === "";
+  });
   if (winner) {
     status = `Winner is: ${winner}`;
+  } else if (!winner && !remSquare) {
+    status = "Match Drawn";
   } else {
     status = xIsNext ? "Turn for X" : "Turn for 0";
   }
@@ -48,6 +53,11 @@ export const Matrix: React.FC = (): JSX.Element => {
     }
     setSquares(nextSquares);
   }
+
+  function handleRestart() {
+    setSquares(Array<string>(9).fill(""));
+    setXIsNext(true);
+  }
   return (
     <>
       <h3>{status}</h3>
@@ -61,6 +71,7 @@ export const Matrix: React.FC = (): JSX.Element => {
           );
         })}
       </div>
+      <Restart onRestart={() => handleRestart()} />
     </>
   );
 };

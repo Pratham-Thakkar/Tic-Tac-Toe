@@ -24,3 +24,7 @@ h1{
   width: 310px;
   flex-wrap: wrap;
 }
+
+.restart-button{
+  margin-top: 4%;
+}
